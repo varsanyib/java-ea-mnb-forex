@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Hiba</title>
+</head>
+<body>
+    <div style="text-align: center">
+        <p>Szerveroldali hiba történt! Kérjük próbálja újra később!</p>
+        <p th:if="${error != null}" th:text="${error}"></p>
+    </div>
+</body>
+</html>

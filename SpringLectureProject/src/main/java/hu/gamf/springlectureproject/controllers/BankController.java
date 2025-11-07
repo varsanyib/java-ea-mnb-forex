@@ -1,0 +1,70 @@
+package hu.gamf.springlectureproject.controllers;
+
+import com.sun.istack.NotNull;
+import hu.gamf.springlectureproject.models.BankDTO;
+import hu.gamf.springlectureproject.models.Currency;
+import hu.gamf.springlectureproject.tools.CustomXMLParser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import soapclient.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class BankController {
+
+    @GetMapping("/mnb")
+    public String getSite(Model model) {
+        MNBArfolyamServiceSoapImpl impl = new MNBArfolyamServiceSoapImpl();
+        MNBArfolyamServiceSoap service = impl.getCustomBindingMNBArfolyamServiceSoap();
+
+        model.addAttribute("dto", new BankDTO());
+
+        try {
+            NodeList nodes = CustomXMLParser.parse(service.getCurrencies()).getElementsByTagName("Curr");
+
+            List<String> currencies = new ArrayList<>();
+            for (int i = 0; i < nodes.getLength(); i++) {
+                currencies.add(nodes.item(i).getTextContent());
+            }
+
+            model.addAttribute("data", currencies);
+            return "bank/form";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    @PostMapping("/mnb")
+    public String postSite(@ModelAttribute BankDTO bankDTO, Model model) {
+        MNBArfolyamServiceSoapImpl impl = new MNBArfolyamServiceSoapImpl();
+        MNBArfolyamServiceSoap service = impl.getCustomBindingMNBArfolyamServiceSoap();
+
+        try {
+            Document doc = CustomXMLParser.parse(service.getExchangeRates(bankDTO.getStartDate(), bankDTO.getEndDate(), bankDTO.getSelectedCurrency()));
+            NodeList dayNodes = doc.getElementsByTagName("Day");
+
+            ArrayList<Currency> exchangeRates = new ArrayList<>();
+            for (int i = 0; i < dayNodes.getLength(); i++) {
+                Element dayElement = (Element) dayNodes.item(i);
+                exchangeRates.add(new Currency(dayElement.getAttribute("date"), dayElement.getTextContent()));
+            }
+            model.addAttribute("data", exchangeRates);
+            return "bank/view";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+
+    }
+
+
+}

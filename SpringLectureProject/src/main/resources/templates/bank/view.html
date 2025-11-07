@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>MNB árfolyamok</title>
+</head>
+<body>
+    <div style="text-align: center">
+        <p th:each="exchangeRate : ${data}" th:text="${exchangeRate.getDate()} + ' - ' + ${exchangeRate.getCurrency()}"></p>
+    </div>
+</body>
+</html>

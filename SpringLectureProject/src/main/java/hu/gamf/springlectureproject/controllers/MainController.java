@@ -1,4 +1,4 @@
-package hu.gamf.springlectureproject;
+package hu.gamf.springlectureproject.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

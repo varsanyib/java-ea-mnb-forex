@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>MNB árfolyamok</title>
+</head>
+<body>
+<form action="#" th:action="@{/mnb}" th:object="${dto}" method="post">
+    <label for="currencies"> Deviza:</label>
+    <select name="currencies" id="currencies" th:field="*{selectedCurrency}">
+        <option th:text="${currency}" th:value="${currency}" th:each="currency : ${data}"></option>
+    </select><br>
+
+    <label for="startDate"> Kezdő dátum:</label>
+    <input type="date" id="startDate" th:field="*{startDate}"><br>
+
+    <label for="endDate"> Záró dátum:</label>
+    <input type="date" id="endDate" th:field="*{endDate}"><br>
+    <input type="submit" value="Lekérdezés">
+</form>
+</body>
+</html>

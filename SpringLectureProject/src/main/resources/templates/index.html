@@ -11,10 +11,10 @@
     <h1>Projektfeladat</h1>
     <ul class="list-group">
         <li class="list-group-item">
-            <a href="mnb">MNB Devizaárfolyamok</a>
+            <a href="bank">MNB árfolyamok</a>
         </li>
     </ul>
-    <p th:text="${nowDate.toLocaleString()}"></p>
+    <p th:text="'Pontos idő: ' + ${nowDate.toLocaleString()}"></p>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
