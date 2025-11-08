@@ -9,7 +9,9 @@
     <h2 th:text="'Devizatípus: ' + ${dto.instrument}"></h2>
     <h2 th:text="'Egység: ' + ${dto.units}"></h2>
     <hr>
-    <p th:text="'Id:' + ${data}"></p>
+    <p th:text="'Id:' + ${data.getId()}"></p>
+    <p th:text="'Raw: ' + ${data.toString()}"></p>
+
     <a th:href="@{open_position}">Másik pozíció nyitása</a>
 </body>
 </html>

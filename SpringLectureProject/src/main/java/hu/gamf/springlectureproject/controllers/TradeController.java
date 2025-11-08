@@ -15,6 +15,7 @@ import com.oanda.v20.pricing.PricingGetRequest;
 import com.oanda.v20.pricing.PricingGetResponse;
 import com.oanda.v20.primitives.InstrumentName;
 import com.oanda.v20.trade.Trade;
+import com.oanda.v20.transaction.OrderFillTransaction;
 import com.oanda.v20.transaction.TransactionID;
 import hu.gamf.springlectureproject.models.ActualPriceDTO;
 import hu.gamf.springlectureproject.models.HistPriceDTO;
@@ -137,11 +138,14 @@ public class TradeController {
             request.setOrder(marketOrderRequest);
 
             OrderCreateResponse response =  ctx.order.create(request);
-            TransactionID tId = response.getOrderFillTransaction().getId();
+            OrderFillTransaction transaction = response.getOrderFillTransaction();
+            if (transaction == null) {
+                throw new Exception("Tranzakció létrehozása sikertelen! (Csak hétköznap lehet tranzakciót létrehozni!)");
+            }
 
 
             model.addAttribute("dto", openPositionDTO);
-            model.addAttribute("data", tId);
+            model.addAttribute("data", transaction);
 
             return "trade/open_position_result";
 
