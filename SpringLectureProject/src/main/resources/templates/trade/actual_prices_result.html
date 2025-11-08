@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aktuális árak</title>
+</head>
+<body>
+    <h1>Aktuális árak (<span th:text="${dto.instrument}"></span>): </h1>
+    <p th:text="${data}"></p>
+
+    <a th:href="@{actual_prices}">Másik kiválasztása</a>
+</body>
+</html>

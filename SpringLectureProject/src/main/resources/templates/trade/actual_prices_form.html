@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aktuális árak</title>
+</head>
+<body>
+    <h1>Aktuális árak</h1>
+    <form th:action="@{actual_prices}" th:object="${dto}" method="post">
+        <label for="instruments">Devizatípus: </label>
+        <select name="instruments" id="instruments" th:field="*{instrument}">
+            <option th:each="i : ${instruments}" th:value="${i}" th:text="${i}"></option>
+        </select>
+        <input type="submit" value="Listázás">
+    </form>
+</body>
+</html>
