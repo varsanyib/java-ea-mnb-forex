@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pozíció zárás</title>
+</head>
+<body>
+    <h1>Zárás</h1>
+    <form th:action="@{close_position}" th:object="${dto}" method="post">
+        <label for="tradeId">Pozíció azonosítója: </label>
+        <input type="number" id="tradeId" name="size" min="-100" max="100" th:field="*{tradeId}"><br>
+        <input type="submit" value="Lezárás">
+    </form>
+</body>
+</html>

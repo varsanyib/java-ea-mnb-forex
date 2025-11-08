@@ -15,9 +15,12 @@ import com.oanda.v20.pricing.PricingGetRequest;
 import com.oanda.v20.pricing.PricingGetResponse;
 import com.oanda.v20.primitives.InstrumentName;
 import com.oanda.v20.trade.Trade;
+import com.oanda.v20.trade.TradeCloseRequest;
+import com.oanda.v20.trade.TradeSpecifier;
 import com.oanda.v20.transaction.OrderFillTransaction;
 import com.oanda.v20.transaction.TransactionID;
 import hu.gamf.springlectureproject.models.ActualPriceDTO;
+import hu.gamf.springlectureproject.models.ClosePositionDTO;
 import hu.gamf.springlectureproject.models.HistPriceDTO;
 import hu.gamf.springlectureproject.models.OpenPositionDTO;
 import hu.gamf.springlectureproject.tools.Config;
@@ -168,5 +171,24 @@ public class TradeController {
         }
     }
 
+    @GetMapping("/trade/close_position")
+    public String getClosePosition(Model model) {
+        model.addAttribute("dto", new ClosePositionDTO());
+        return "trade/close_position_form";
+    }
+
+    @PostMapping("/trade/close_position")
+    public String showClosePosition(@ModelAttribute ClosePositionDTO closePositionDTO, Model model) {
+        try {
+            model.addAttribute("dto", closePositionDTO);
+            ctx.trade.close(new TradeCloseRequest(Config.ACCOUNTID, new TradeSpecifier(closePositionDTO.getTradeIdInString())));
+
+            return "trade/close_position_result";
+
+        } catch (Exception e) {
+            model.addAttribute("errors", e);
+            return "error";
+        }
+    }
 
 }

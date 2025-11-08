@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pozició zárva</title>
+</head>
+<body>
+    <h1>Pozíció lezárva!</h1>
+    <h2 th:text="'Lezárt pozíció azonosítója: ' + ${dto.tradeId}"></h2>
+
+    <a th:href="@{close_position}">Másik pozíció zárása</a>
+</body>
+</html>
