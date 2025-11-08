@@ -4,10 +4,15 @@ import com.oanda.v20.Context;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
 import com.oanda.v20.account.AccountSummary;
+import com.oanda.v20.instrument.CandlestickGranularity;
+import com.oanda.v20.instrument.InstrumentCandlesRequest;
+import com.oanda.v20.instrument.InstrumentCandlesResponse;
 import com.oanda.v20.pricing.ClientPrice;
 import com.oanda.v20.pricing.PricingGetRequest;
 import com.oanda.v20.pricing.PricingGetResponse;
+import com.oanda.v20.primitives.InstrumentName;
 import hu.gamf.springlectureproject.models.ActualPriceDTO;
+import hu.gamf.springlectureproject.models.HistPriceDTO;
 import hu.gamf.springlectureproject.tools.Config;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +51,7 @@ public class TradeController {
     }
 
     @PostMapping("/trade/actual_prices")
-    public String getActualPrices(@ModelAttribute ActualPriceDTO actualPriceDTO, Model model) {
+    public String showActualPrices(@ModelAttribute ActualPriceDTO actualPriceDTO, Model model) {
         model.addAttribute("dto", actualPriceDTO);
 
         try {
@@ -61,4 +66,52 @@ public class TradeController {
             return "error";
         }
     }
+
+    @GetMapping("/trade/hist_prices")
+    public String getHistPrices(Model model) {
+        model.addAttribute("dto", new HistPriceDTO());
+        model.addAttribute("instruments", new ArrayList<>(Arrays.asList("EUR_USD", "USD_JPY", "GBP_USD", "USD_CHF")));
+        model.addAttribute("granularities", new ArrayList<>(Arrays.asList("M1", "H1", "D", "W", "M")));
+
+        return "trade/hist_prices_form";
+    }
+
+    @PostMapping("/trade/hist_prices")
+    public String showHistPrices(@ModelAttribute HistPriceDTO histPriceDTO, Model model) {
+        try {
+
+            InstrumentCandlesRequest request = new InstrumentCandlesRequest(new InstrumentName(histPriceDTO.getInstrument()));
+            switch (histPriceDTO.getGranularity()) {
+                case "M1":
+                    request.setGranularity(CandlestickGranularity.M1);
+                    break;
+                case "H1":
+                    request.setGranularity(CandlestickGranularity.H1);
+                    break;
+                case "D":
+                    request.setGranularity(CandlestickGranularity.D);
+                    break;
+                case "W":
+                    request.setGranularity(CandlestickGranularity.W);
+                    break;
+                case "M":
+                    request.setGranularity(CandlestickGranularity.M);
+                    break;
+            }
+
+            request.setCount(10L);
+            InstrumentCandlesResponse response =  ctx.instrument.candles(request);
+
+            model.addAttribute("dto", histPriceDTO);
+            model.addAttribute("data", response.getCandles());
+
+            return "trade/hist_prices_result";
+
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+
 }

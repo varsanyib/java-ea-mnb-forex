@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Historikus árak</title>
+</head>
+<body>
+    <h1>Historikus árak</h1>
+    <form th:action="@{hist_prices}" th:object="${dto}" method="post">
+        <label for="instruments">Devizatípus: </label>
+        <select name="instruments" id="instruments" th:field="*{instrument}">
+            <option th:each="i : ${instruments}" th:value="${i}" th:text="${i}"></option>
+        </select>
+
+        <label for="granularities">Részletesség (granularity): </label>
+        <select name="granularities" id="granularities" th:field="*{granularity}">
+            <option th:each="i : ${granularities}" th:value="${i}" th:text="${i}"></option>
+        </select>
+        <input type="submit" value="Listázás">
+    </form>
+</body>
+</html>

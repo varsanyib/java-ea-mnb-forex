@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Historikus árak</title>
+</head>
+<body>
+<h1>Historikus árak</h1>
+<h2 th:text="'Devizatípus: ' + ${dto.instrument}"></h2>
+<h2 th:text="'Részletesség: ' + ${dto.granularity}"></h2>
+<hr>
+<div style="border: 1px solid black; padding: 10px; margin: 5px" th:each="i : ${data}">
+    <p th:text="'Időpont: ' +  ${i.getTime()}"></p>
+    <p>Árak</p>
+    <p th:text="'C: ' +  ${i.getMid().getC()}"></p>
+    <p th:text="'L: ' +  ${i.getMid().getL()}"></p>
+    <p th:text="'H: ' +  ${i.getMid().getH()}"></p>
+</div>
+
+
+<a th:href="@{hist_prices}">Másik kiválasztása</a>
+</body>
+</html>
