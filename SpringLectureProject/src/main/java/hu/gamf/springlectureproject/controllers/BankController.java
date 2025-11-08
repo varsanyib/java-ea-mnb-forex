@@ -51,11 +51,14 @@ public class BankController {
             NodeList dayNodes = doc.getElementsByTagName("Day");
 
             ArrayList<Currency> exchangeRates = new ArrayList<>();
-            for (int i = 0; i < dayNodes.getLength(); i++) {
+            //Reverse (newest to last)
+            for (int i = dayNodes.getLength() - 1; i >= 0; i--) {
                 Element dayElement = (Element) dayNodes.item(i);
                 exchangeRates.add(new Currency(dayElement.getAttribute("date"), dayElement.getTextContent()));
             }
             model.addAttribute("data", exchangeRates);
+            model.addAttribute("chartLabels", exchangeRates.stream().map(Currency::getDate).toList());
+            model.addAttribute("chartData", exchangeRates.stream().map(Currency::getCurrency).toList());
             return "bank/view";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

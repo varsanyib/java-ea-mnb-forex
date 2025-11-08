@@ -7,8 +7,29 @@
 <body>
     <div style="text-align: center">
         <p th:each="exchangeRate : ${data}" th:text="${exchangeRate.getDate()} + ' - ' + ${exchangeRate.getCurrency()}"></p>
+        <div>
+            <canvas id="exchangeChart"></canvas>
+        </div>
         <a href="/mnb">Vissza</a>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+        const ctx = document.getElementById('exchangeChart');
+        const chartLabels = [[${chartLabels}]];
+        const chartData = [[${chartData}]];
 
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Árfolyam',
+                    data: chartData,
+                    fill: true,
+                    borderColor: 'rgb(75, 192, 192)'
+                }]
+            }
+        });
+    </script>
 </body>
 </html>
