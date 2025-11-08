@@ -151,5 +151,18 @@ public class TradeController {
         }
     }
 
+    @GetMapping("/trade/positions")
+    public String getPositions(Model model) {
+        try {
+            List<Trade> trades = ctx.trade.listOpen(Config.ACCOUNTID).getTrades();
+            model.addAttribute("data", trades);
+
+            return "trade/positions";
+        } catch (Exception e) {
+            model.addAttribute("errors", e);
+            return "error";
+        }
+    }
+
 
 }

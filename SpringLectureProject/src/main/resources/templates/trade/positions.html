@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pozíciók</title>
+</head>
+<body>
+    <h1>Pozíciók</h1>
+    <p th:if="${data.size()} > 0" th:text="'Nyitott pozíciók száma: ' + ${data.size()}"></p>
+    <p th:if="${data.size()} == 0" style="color: red">Nincsen nyitott pozíció!</p>
+    <hr>
+    <div class="positions">
+        <div th:each="p : ${data}" class="position" style="border: 1px solid black; padding: 10px; margin: 5px" >
+            <h3 th:text="'Id: ' + ${p.getId()}"></h3>
+            <p th:text="'Devizanem: ' + ${p.getInstrument()}"></p>
+            <p th:text="'Nyitás ideje:  ' + ${p.getOpenTime()}"></p>
+            <p th:text="'Egység:  ' + ${p.getCurrentUnits()}"></p>
+            <p th:text="'Ár:  ' + ${p.getPrice()}"></p>
+            <p th:text="'UPL:  ' + ${p.getUnrealizedPL()}"></p>
+        </div>
+    </div>
+</body>
+</html>
