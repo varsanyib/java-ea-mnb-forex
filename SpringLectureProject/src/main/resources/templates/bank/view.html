@@ -7,6 +7,8 @@
 <body>
     <div style="text-align: center">
         <p th:each="exchangeRate : ${data}" th:text="${exchangeRate.getDate()} + ' - ' + ${exchangeRate.getCurrency()}"></p>
+        <a href="/mnb">Vissza</a>
     </div>
+
 </body>
 </html>

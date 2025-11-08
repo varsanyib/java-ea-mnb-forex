@@ -1,6 +1,4 @@
 package hu.gamf.springlectureproject.controllers;
-
-import com.sun.istack.NotNull;
 import hu.gamf.springlectureproject.models.BankDTO;
 import hu.gamf.springlectureproject.models.Currency;
 import hu.gamf.springlectureproject.tools.CustomXMLParser;
