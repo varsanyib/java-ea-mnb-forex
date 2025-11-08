@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Felhasználói fiók adatai</title>
+</head>
+<body>
+    <h1>Felhasználói fiók adatai</h1>
+    <h2 th:text="'Felhasználói azonosító: ' + ${account.getId()}"></h2>
+    <hr>
+    <p th:text="'Raw text: ' + ${account.toString()}"></p>
+</body>
+</html>
