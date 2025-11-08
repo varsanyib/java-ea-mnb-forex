@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pozíció nyitás</title>
+</head>
+<body>
+    <h1>Nyitás</h1>
+    <form th:action="@{open_position}" th:object="${dto}" method="post">
+        <label for="instruments">Devizatípus: </label>
+        <select name="instruments" id="instruments" th:field="*{instrument}">
+            <option th:each="i : ${instruments}" th:value="${i}" th:text="${i}"></option>
+        </select><br>
+        <label for="quantity">Mennyiség: </label>
+        <input type="number" id="quantity" name="size" min="-100" max="100" th:field="*{units}"><br>
+        <input type="submit" value="Listázás">
+    </form>
+</body>
+</html>

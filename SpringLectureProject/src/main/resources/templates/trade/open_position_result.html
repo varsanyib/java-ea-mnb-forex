@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pozició nyitás</title>
+</head>
+<body>
+    <h1>Pozíció nyitva!</h1>
+    <h2 th:text="'Devizatípus: ' + ${dto.instrument}"></h2>
+    <h2 th:text="'Egység: ' + ${dto.units}"></h2>
+    <hr>
+    <p th:text="'Id:' + ${data}"></p>
+    <a th:href="@{open_position}">Másik pozíció nyitása</a>
+</body>
+</html>

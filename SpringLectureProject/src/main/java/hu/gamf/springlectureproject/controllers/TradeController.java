@@ -7,12 +7,18 @@ import com.oanda.v20.account.AccountSummary;
 import com.oanda.v20.instrument.CandlestickGranularity;
 import com.oanda.v20.instrument.InstrumentCandlesRequest;
 import com.oanda.v20.instrument.InstrumentCandlesResponse;
+import com.oanda.v20.order.MarketOrderRequest;
+import com.oanda.v20.order.OrderCreateRequest;
+import com.oanda.v20.order.OrderCreateResponse;
 import com.oanda.v20.pricing.ClientPrice;
 import com.oanda.v20.pricing.PricingGetRequest;
 import com.oanda.v20.pricing.PricingGetResponse;
 import com.oanda.v20.primitives.InstrumentName;
+import com.oanda.v20.trade.Trade;
+import com.oanda.v20.transaction.TransactionID;
 import hu.gamf.springlectureproject.models.ActualPriceDTO;
 import hu.gamf.springlectureproject.models.HistPriceDTO;
+import hu.gamf.springlectureproject.models.OpenPositionDTO;
 import hu.gamf.springlectureproject.tools.Config;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +44,7 @@ public class TradeController {
             return "trade/account";
         } catch (Exception e) {
             System.out.println("Hiba történt a felhasználói fiók adatainak lekérdezése közben!" + e.getMessage());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errors", e);
             return "error";
         }
     }
@@ -62,7 +68,7 @@ public class TradeController {
 
             return "trade/actual_prices_result";
         } catch (RequestException | ExecuteException e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errors", e);
             return "error";
         }
     }
@@ -108,7 +114,39 @@ public class TradeController {
             return "trade/hist_prices_result";
 
         } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errors", e);
+            return "error";
+        }
+    }
+
+    @GetMapping("/trade/open_position")
+    public String getOpenPosition(Model model) {
+        model.addAttribute("dto", new OpenPositionDTO());
+        model.addAttribute("instruments", new ArrayList<>(Arrays.asList("EUR_USD", "USD_JPY", "GBP_USD", "USD_CHF")));
+        return "trade/open_position_form";
+    }
+
+    @PostMapping("/trade/open_position")
+    public String showOpenPosition(@ModelAttribute OpenPositionDTO openPositionDTO, Model model) {
+        try {
+            InstrumentName instrument = new InstrumentName(openPositionDTO.getInstrument());
+            OrderCreateRequest request = new OrderCreateRequest(Config.ACCOUNTID);
+            MarketOrderRequest marketOrderRequest = new MarketOrderRequest();
+            marketOrderRequest.setInstrument(instrument);
+            marketOrderRequest.setUnits(openPositionDTO.getUnits());
+            request.setOrder(marketOrderRequest);
+
+            OrderCreateResponse response =  ctx.order.create(request);
+            TransactionID tId = response.getOrderFillTransaction().getId();
+
+
+            model.addAttribute("dto", openPositionDTO);
+            model.addAttribute("data", tId);
+
+            return "trade/open_position_result";
+
+        } catch (Exception e) {
+            model.addAttribute("errors", e);
             return "error";
         }
     }
