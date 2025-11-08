@@ -1,30 +1,90 @@
 <!doctype html>
-<html lang="hu">
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Menü</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body>
-<div class="container text-center">
-    <h1>Magyar Nemzeti Bank</h1>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="mnb">Árfolyamok</a>
-        </li>
-    </ul>
-    <h1>Devizakereskedő kliens</h1>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="trade/account_info">Felhasználói fiók adatai</a>
-        </li>
-        <li class="list-group-item">
-            <a href="trade/actual_prices">Aktuális árak</a>
-        </li>
-    </ul>
-    <p th:text="'Pontos idő: ' + ${nowDate.toLocaleString()}"></p>
+
+<body class="is-preload">
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+
+            <header id="header">
+                <a href="/" class="logo"><strong>Magyar Nemzeti Bank</strong> • Devizakereskedő kliens</a>
+            </header>
+
+
+            <section id="banner">
+                <div class="content">
+                    <header>
+                        <h1>Magyar Nemzeti Bank</h1>
+                        <p>Árfolyam lekérdezések az MNB nyilvános szolgáltatásáról</p>
+                    </header>
+
+
+                    <ul class="actions">
+                        <li><a href="mnb" class="button big">Árfolyamok</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Kliens funkciók -->
+            <section>
+                <header class="major">
+                    <h2>Devizakereskedő kliens</h2>
+                </header>
+
+
+                <div class="features">
+                    <article>
+                        <span class="icon solid fa-user"></span>
+                        <div class="content">
+                            <h3>Felhasználói fiók adatai</h3>
+                            <p>Fiókhoz tartozó alapadatok.</p>
+                            <ul class="actions">
+                                <li><a href="trade/account_info" class="button">Megnyitás</a></li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article>
+                        <span class="icon solid fa-chart-line"></span>
+                        <div class="content">
+                            <h3>Aktuális árak</h3>
+                            <p>Valós idejű devizaárak megjelenítése és frissítése.</p>
+                            <ul class="actions">
+                                <li><a href="trade/actual_prices" class="button">Megnyitás</a></li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Láb alatti dátum -->
+            <p th:text="${'Pontos idő: ' + #dates.format(nowDate, 'yyyy. MMM d. HH:mm:ss')}"></p>
+
+        </div>
+    </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
 </body>
 </html>

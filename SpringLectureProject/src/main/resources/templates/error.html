@@ -1,13 +1,44 @@
-<!DOCTYPE html>
-<html lang="hu">
+<!doctype html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Hiba</title>
+    <link rel="stylesheet" th:href="@{/css/error.css(v=${T(java.time.Instant).now().toEpochMilli()})}" />
 </head>
 <body>
-    <div style="text-align: center">
-        <p>Szerveroldali hiba történt! Kérjük próbálja újra később!</p>
-        <p th:if="${error != null}" th:text="${error}"></p>
-    </div>
+<main class="error-wrap">
+    <section class="error-card">
+        <div class="error-icon" aria-hidden="true">!</div>
+
+        <header class="error-header">
+            <h1>Valami elromlott</h1>
+            <p class="lead">Szerveroldali hiba történt. Kérjük, próbálja újra később!</p>
+        </header>
+
+        <ul class="error-meta">
+            <li th:if="${path != null}"><strong>Útvonal:</strong> <span th:text="${path}">/error</span></li>
+            <li th:if="${timestamp != null}">
+                <strong>Idő:</strong>
+                <span th:text="${#dates.format(timestamp,'yyyy.MM.dd. HH:mm:ss')}">2025.01.01. 12:00:00</span>
+            </li>
+        </ul>
+
+        <details class="error-details" th:if="${trace != null || (errors != null)}">
+            <summary>Részletek</summary>
+            <pre th:if="${trace != null}" th:text="${trace}"></pre>
+            <ul th:if="${errors != null}">
+                <li th:each="e : ${errors}" th:text="${e}"></li>
+            </ul>
+        </details>
+
+        <div class="error-actions">
+            <button type="button" class="button" onclick="history.back()">Vissza</button>
+            <a class="button primary" th:href="@{/}">Főoldal</a>
+            <button type="button" class="button" onclick="location.reload()">Újra</button>
+        </div>
+
+        <p class="hint">Ha a hiba ismétlődik, kérjük jelezze a szerver üzemeltetője felé!</p>
+    </section>
+</main>
 </body>
 </html>
