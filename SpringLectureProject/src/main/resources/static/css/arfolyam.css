@@ -75,3 +75,64 @@ ul.actions .button:hover{
   transform:translateY(-2px);
   box-shadow:0 8px 16px rgba(0,0,0,.2);
 }
+
+/*  Űrlap oldal layout  */
+
+.mnb-grid{
+  display:grid;
+  grid-template-columns: 1.2fr 0.9fr 0.9fr;
+  gap:1.5rem;
+  align-items:stretch;
+  max-width: 1300px;
+}
+
+.mnb-form,
+.mnb-side .card{
+  background:#ffffff;
+  border:1px solid rgba(142,207,147,.35);
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  padding:1.25rem 1.25rem 1rem;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.mnb-side .card.highlight{ border-width:2px; }
+
+
+.mnb-side.two-col{
+  display:contents;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  margin-bottom:.75rem;
+}
+.field label{
+  color:#3d4449; font-weight:600; margin-bottom:.45rem; display:block;
+}
+.field input[type="date"], .field select{
+  width:100%; height:2.9em; background:#fff;
+  border:1px solid rgba(210,215,217,.75); border-radius:.5rem; padding:0 .9rem; outline:none;
+}
+.field input[type="date"]:focus, .field select:focus{
+  border-color:var(--accent-color);
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--accent-color) 30%, white);
+}
+
+.chips{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.5rem 0 .25rem; }
+.chip{
+  border:0; border-radius:999px; padding:.45rem .8rem;
+  font-weight:700; letter-spacing:.02em;
+  background:var(--accent-color); color:var(--button-color); cursor:pointer;
+}
+.chip:hover{ filter:brightness(1.06); }
+.muted{ color:#6b7280; font-size:.9em; margin-top:.25rem; }
+
+@media (max-width:1024px){
+  .mnb-grid{ grid-template-columns:1fr; }
+}
+
