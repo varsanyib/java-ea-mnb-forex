@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class TradeController {
@@ -44,7 +47,30 @@ public class TradeController {
         try {
             AccountSummary summary = ctx.account.summary(Config.ACCOUNTID).getAccount();
 
+            // createdTime -> szépen formázott String (CET/CEST szerint)
+            String createdTimeFmt = null;
+            try {
+                String raw = summary.getCreatedTime() == null ? null : summary.getCreatedTime().toString();
+                if (raw != null && !raw.isEmpty()) {
+                    Instant ct = Instant.parse(raw); // pl. 2025-11-07T23:37:58.894402700Z
+                    createdTimeFmt = DateTimeFormatter.ofPattern("yyyy. MM. dd. HH:mm:ss")
+                            .withZone(ZoneId.of("Europe/Budapest"))
+                            .format(ct);
+                }
+            } catch (Exception ignore) {
+                // ha bármiért nem parse-olható, marad null és a template a nyerset írja
+            }
+
+            // opcionális: margin ráta százalék előkészítve (a template-nek könnyebb)
+            Double marginRatePct = null;
+            try {
+                if (summary.getMarginRate() != null)
+                    marginRatePct = summary.getMarginRate().doubleValue() * 100d;
+            } catch (Exception ignore) { }
+
             model.addAttribute("account", summary);
+            model.addAttribute("createdTimeFmt", createdTimeFmt);
+            model.addAttribute("marginRatePct", marginRatePct);
             return "trade/account";
         } catch (Exception e) {
             System.out.println("Hiba történt a felhasználói fiók adatainak lekérdezése közben!" + e.getMessage());

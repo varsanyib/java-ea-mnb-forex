@@ -1,0 +1,60 @@
+
+.usercard{ background:rgba(255,255,255,.7); border:1px solid rgba(0,0,0,.06); }
+.badge.bg-soft-accent{ background:color-mix(in srgb, var(--accent-color) 18%, white); }
+.text-accent{ color:var(--accent-color); }
+
+.bg-success-soft{ background:rgba(25,135,84,.12); color:#198754; }
+.bg-danger-soft{ background:rgba(220,53,69,.12); color:#dc3545; }
+
+.nice-dl dt{ color:#3d4449; }
+.nice-dl dd{ color:#3d4449; }
+.nice-dl dt, .nice-dl dd{ padding:.35rem 0; border-bottom:1px dashed rgba(0,0,0,.06); }
+.nice-dl dt:last-of-type, .nice-dl dd:last-of-type{ border-bottom:0; }
+
+.mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+
+@media (max-width: 576px){
+  h3{ font-size:1.2rem; }
+  .nice-dl dt{ width:60%; }
+  .nice-dl dd{ width:40%; }
+}
+
+.usercard{ background:rgba(255,255,255,.70); border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:18px 20px; box-shadow:0 6px 24px rgba(0,0,0,.06); }
+.usercard--section{ background:rgba(255,255,255,.60); }
+.usercard--accent{  background:color-mix(in srgb, var(--accent-color) 10%, white); border-color: color-mix(in srgb, var(--accent-color) 25%, transparent); }
+.usercard--muted{   background:rgba(255,255,255,.50); }
+
+.usercard .card-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.75rem; }
+.usercard .card-title{ font-size:1.15rem; font-weight:700; color:#3d4449; margin:0; }
+
+.kv { margin:0; }
+.kv dt{ color:#3d4449; font-weight:600; }
+.kv dd{ color:#3d4449; margin:0; }
+.kv dt, .kv dd{ padding:.45rem 0; border-bottom:1px dashed rgba(0,0,0,.06); }
+.kv dt:last-of-type, .kv dd:last-of-type{ border-bottom:0; }
+
+.val { text-align:right; }
+.val .unit{ opacity:.75; margin-left:.25rem; }
+
+
+.badge.bg-soft-accent{ background:color-mix(in srgb, var(--accent-color) 18%, white); color:var(--accent-color); }
+.bg-success-soft{ background:rgba(25,135,84,.12); color:#198754; }
+.bg-danger-soft{  background:rgba(220,53,69,.12); color:#dc3545; }
+
+.mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+
+.kv .badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.65rem;
+  vertical-align: middle;
+}
+
+@media (max-width: 576px){
+  .usercard{ padding:14px 16px; }
+  .card-title{ font-size:1.05rem; }
+  .kv dt{ width:60%; }
+  .kv dd{ width:40%; }
+}
+
