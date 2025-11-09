@@ -1,0 +1,77 @@
+/*Árfolyam oldal egyedi stílusok */
+
+header.major p{
+  color:#3d4449;
+  font-family:"Roboto Slab", serif;
+  font-weight:500;
+  letter-spacing:.03em;
+  margin:.25em 0;
+}
+header.major p span{
+  font-weight:700;
+  color:var(--accent-color);
+}
+
+.table-wrapper{
+  background:#ffffff;
+  border:1px solid rgba(142,207,147,.35);
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  padding: .5rem 0;
+  margin-top:1.5rem;
+}
+
+.table-wrapper table{ border-collapse:collapse !important; border-spacing:0 !important; width:100%; }
+.table-wrapper tbody tr,
+.table-wrapper tbody td{
+  box-shadow:none !important;
+  background:transparent;
+  border-radius:0 !important;
+  padding:0;
+}
+
+.table-wrapper thead th{
+  background:rgba(142,207,147,.18);
+  color:#0F5C0E;
+  font-weight:800;
+  letter-spacing:.04em;
+  border-bottom:2px solid rgba(142,207,147,.35);
+  padding:.9rem 1rem;
+  text-transform:uppercase;
+}
+
+.table-wrapper tbody td{
+  color:#353b40;
+  padding:1rem 1rem;
+  border-top:1px solid rgba(0,0,0,.05);
+}
+
+.table-wrapper tbody tr{ background:#ffffff; }
+.table-wrapper tbody tr:nth-child(even){ background:#f3f8f4; }
+
+.table-wrapper tbody tr:hover{
+  background:#eaf4ec;
+  transition:background-color .15s ease;
+}
+
+@media (max-width:768px){
+  .table-wrapper tbody td{ padding:.85rem .9rem; }
+}
+
+#exchangeChart{
+  background:#ffffff;
+  border:1px solid rgba(142,207,147,.35);
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  padding:1rem;
+  margin-top:1.5rem;
+}
+
+ul.actions .button{
+  box-shadow:0 4px 8px rgba(0,0,0,.15);
+  transition:all .2s ease;
+}
+ul.actions .button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 16px rgba(0,0,0,.2);
+}

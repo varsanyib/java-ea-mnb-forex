@@ -20,25 +20,19 @@ public class BankController {
 
     @GetMapping("/mnb")
     public String getSite(Model model) {
-        MNBArfolyamServiceSoapImpl impl = new MNBArfolyamServiceSoapImpl();
-        MNBArfolyamServiceSoap service = impl.getCustomBindingMNBArfolyamServiceSoap();
+        MNBArfolyamServiceSoap service =
+                new MNBArfolyamServiceSoapImpl().getCustomBindingMNBArfolyamServiceSoap();
 
         model.addAttribute("dto", new BankDTO());
 
         try {
             NodeList nodes = CustomXMLParser.parse(service.getCurrencies()).getElementsByTagName("Curr");
-
             List<String> currencies = new ArrayList<>();
             for (int i = 0; i < nodes.getLength(); i++) {
                 currencies.add(nodes.item(i).getTextContent());
             }
 
-            //HUF - HUF exchange does not exist
-            if (currencies.contains("HUF")) {
-                currencies.remove("HUF");
-            }
-
-            model.addAttribute("data", currencies);
+            model.addAttribute("currencies", currencies);
             return "bank/form";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
@@ -46,31 +40,37 @@ public class BankController {
         }
     }
 
+
     @PostMapping("/mnb")
     public String postSite(@ModelAttribute BankDTO bankDTO, Model model) {
-        MNBArfolyamServiceSoapImpl impl = new MNBArfolyamServiceSoapImpl();
-        MNBArfolyamServiceSoap service = impl.getCustomBindingMNBArfolyamServiceSoap();
+        MNBArfolyamServiceSoap service =
+                new MNBArfolyamServiceSoapImpl().getCustomBindingMNBArfolyamServiceSoap();
 
         try {
-            Document doc = CustomXMLParser.parse(service.getExchangeRates(bankDTO.getStartDate(), bankDTO.getEndDate(), bankDTO.getSelectedCurrency()));
+            Document doc = CustomXMLParser.parse(
+                    service.getExchangeRates(bankDTO.getStartDate(), bankDTO.getEndDate(), bankDTO.getSelectedCurrency())
+            );
             NodeList dayNodes = doc.getElementsByTagName("Day");
 
             ArrayList<Currency> exchangeRates = new ArrayList<>();
-            //Reverse (newest to last)
             for (int i = dayNodes.getLength() - 1; i >= 0; i--) {
                 Element dayElement = (Element) dayNodes.item(i);
                 exchangeRates.add(new Currency(dayElement.getAttribute("date"), dayElement.getTextContent()));
             }
+
             model.addAttribute("data", exchangeRates);
             model.addAttribute("chartLabels", exchangeRates.stream().map(Currency::getDate).toList());
-            model.addAttribute("chartData", exchangeRates.stream().map(Currency::getCurrency).toList());
+            model.addAttribute("chartData",   exchangeRates.stream().map(Currency::getCurrency).toList());
+
+            model.addAttribute("dto", bankDTO);
+
             return "bank/view";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "error";
         }
-
     }
+
 
 
 }
