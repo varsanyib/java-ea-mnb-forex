@@ -47,12 +47,12 @@ public class TradeController {
         try {
             AccountSummary summary = ctx.account.summary(Config.ACCOUNTID).getAccount();
 
-            // createdTime -> szépen formázott String (CET/CEST szerint)
+
             String createdTimeFmt = null;
             try {
                 String raw = summary.getCreatedTime() == null ? null : summary.getCreatedTime().toString();
                 if (raw != null && !raw.isEmpty()) {
-                    Instant ct = Instant.parse(raw); // pl. 2025-11-07T23:37:58.894402700Z
+                    Instant ct = Instant.parse(raw);
                     createdTimeFmt = DateTimeFormatter.ofPattern("yyyy. MM. dd. HH:mm:ss")
                             .withZone(ZoneId.of("Europe/Budapest"))
                             .format(ct);
@@ -61,7 +61,7 @@ public class TradeController {
                 // ha bármiért nem parse-olható, marad null és a template a nyerset írja
             }
 
-            // opcionális: margin ráta százalék előkészítve (a template-nek könnyebb)
+
             Double marginRatePct = null;
             try {
                 if (summary.getMarginRate() != null)
@@ -89,12 +89,30 @@ public class TradeController {
     @PostMapping("/trade/actual_prices")
     public String showActualPrices(@ModelAttribute ActualPriceDTO actualPriceDTO, Model model) {
         model.addAttribute("dto", actualPriceDTO);
-
         try {
-            PricingGetRequest request = new PricingGetRequest(Config.ACCOUNTID, new ArrayList<>(Collections.singletonList(actualPriceDTO.getInstrument())));
-            PricingGetResponse response =  ctx.pricing.get(request);
+            PricingGetRequest req = new PricingGetRequest(
+                    Config.ACCOUNTID,
+                    Arrays.asList(new InstrumentName(actualPriceDTO.getInstrument()))
+            );
+            PricingGetResponse resp = ctx.pricing.get(req);
 
-            model.addAttribute("data", response.getPrices());
+            List<ClientPrice> prices = resp.getPrices();
+            ClientPrice price = (prices != null && !prices.isEmpty()) ? prices.get(0) : null;
+
+
+            String timeFmt = null;
+            if (price != null && price.getTime() != null) {
+                try {
+                    Instant t = Instant.parse(price.getTime().toString());
+                    timeFmt = DateTimeFormatter.ofPattern("yyyy. MM. dd. HH:mm:ss")
+                            .withZone(ZoneId.of("Europe/Budapest"))
+                            .format(t);
+                } catch (Exception ignored) {}
+            }
+
+            model.addAttribute("price", price);
+            model.addAttribute("timeFmt", timeFmt);
+            model.addAttribute("data", prices);
 
             return "trade/actual_prices_result";
         } catch (RequestException | ExecuteException e) {
