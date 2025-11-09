@@ -32,6 +32,11 @@ public class BankController {
                 currencies.add(nodes.item(i).getTextContent());
             }
 
+            //HUF - HUF exchange does not exist
+            if (currencies.contains("HUF")) {
+                currencies.remove("HUF");
+            }
+
             model.addAttribute("currencies", currencies);
             return "bank/form";
         } catch (Exception e) {
