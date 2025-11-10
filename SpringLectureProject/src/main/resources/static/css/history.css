@@ -1,0 +1,111 @@
+/* ---- Historikus árak oldal ---- */
+
+.history-table.table-wrapper{
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(142,207,147,.35);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  padding: 1rem 0 .4rem;
+  backdrop-filter: blur(3px);
+}
+
+.history-table table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.history-table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(142,207,147,.15);
+  border-bottom: 2px solid rgba(142,207,147,.35);
+  padding: .85rem;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 700;
+  color:#3d4449;
+}
+
+.history-table tbody tr:nth-child(2n+1){ background: rgba(142,207,147,.06); }
+.history-table tbody td{
+  padding: .7rem .85rem;
+  border-bottom: 1px solid rgba(210,215,217,.45);
+  text-align: center;
+  vertical-align: middle;
+  color:#3d4449;
+  font-size: .95rem;
+}
+
+.history-table td:nth-child(3),
+.history-table td:nth-child(4),
+.history-table td:nth-child(5),
+.history-table td:nth-child(6){
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.history-table td:nth-child(4){ color:#0f5c0e; } /* Záró */
+.history-table td:nth-child(5){ color:#b30c0c; } /* Minimum */
+.history-table td:nth-child(6){ color:#0f5c0e; } /* Maximum */
+
+
+.actions-row{
+  margin-top: 1.8rem;
+  display: flex;
+  gap: .6rem;
+}
+
+/* ---- Historikus árak form oldal elrendezés ---- */
+.history-layout {
+  display: grid;
+  grid-template-columns: 60% 35%;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .history-layout { grid-template-columns: 1fr; }
+}
+
+.history-layout .form-card .actions-row {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 0.6rem;
+}
+
+
+.history-layout .info-box {
+  background: rgba(255, 255, 255, 0.75);
+  border-left: 4px solid rgba(142, 207, 147, 0.6);
+  border-radius: 10px;
+  padding: 1.5rem 1.8rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  color: #3d4449;
+  backdrop-filter: blur(3px);
+}
+
+
+.history-layout .info-box h4 {
+  font-weight: 700;
+  color: #0f5c0e;
+  margin-bottom: .6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.history-layout .info-box h4 i {
+  color: #8ecf93;
+  font-size: 1.1rem;
+}
+
+.history-layout .info-box ul {
+  margin: 0;
+  padding-left: 1.3rem;
+  list-style-type: square;
+  font-size: 0.95rem;
+}
+
+.history-layout .info-box li { margin-bottom: 0.3rem; }
