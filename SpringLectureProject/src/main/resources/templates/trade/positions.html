@@ -1,23 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Pozíciók</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nyitott pozíciók</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/position_control.css">
 </head>
-<body>
-    <h1>Pozíciók</h1>
-    <p th:if="${data.size()} > 0" th:text="'Nyitott pozíciók száma: ' + ${data.size()}"></p>
-    <p th:if="${data.size()} == 0" style="color: red">Nincsen nyitott pozíció!</p>
-    <hr>
-    <div class="positions">
-        <div th:each="p : ${data}" class="position" style="border: 1px solid black; padding: 10px; margin: 5px" >
-            <h3 th:text="'Id: ' + ${p.getId()}"></h3>
-            <p th:text="'Devizanem: ' + ${p.getInstrument()}"></p>
-            <p th:text="'Nyitás ideje:  ' + ${p.getOpenTime()}"></p>
-            <p th:text="'Egység:  ' + ${p.getCurrentUnits()}"></p>
-            <p th:text="'Ár:  ' + ${p.getPrice()}"></p>
-            <p th:text="'UPL:  ' + ${p.getUnrealizedPL()}"></p>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+
+            <!-- Fejléc -->
+            <header id="header">
+                <a th:href="@{/}" class="logo"><strong>Magyar Nemzeti Bank</strong> • Nyitott pozíciók</a>
+            </header>
+
+            <section>
+                <header class="major">
+                    <h2><span class="icon solid fa-list"></span> Nyitott pozíciók</h2>
+                    <p class="subtle">
+                        <span th:if="${data != null}" th:text="${'Összesen: ' + data.size() + ' db'}">Összesen: 0 db</span>
+                    </p>
+                </header>
+
+                <!-- Üres állapot -->
+                <div th:if="${data == null or #lists.isEmpty(data)}" class="empty-state">
+                    <span class="icon solid fa-box-open"></span>
+                    <div>Nincsen nyitott pozíció.</div>
+                    <div class="actions-row">
+                        <a th:href="@{/trade/open_position}" class="button icon solid fa-plus">Új nyitás</a>
+                        <a th:href="@{/}" class="button icon solid fa-home">Főmenü</a>
+                    </div>
+                </div>
+
+                <!-- Táblázat -->
+                <div th:if="${data != null and !#lists.isEmpty(data)}" class="table-wrapper nice-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Instrument</th>
+                            <th>Irány</th>
+                            <th class="num">Egység</th>
+                            <th class="num">Ár</th>
+                            <th class="num">UPL</th>
+                            <th>Nyitás ideje</th>
+                            <th class="actions">Művelet</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="p, idx : ${data}">
+                            <td th:text="${p.id}">—</td>
+                            <td>
+                                <span class="badge-soft" th:text="${p.instrument}">EUR_USD</span>
+                            </td>
+
+                            <!-- Irány: long/short -->
+                            <td>
+                <span th:class="'dir-pill ' + (${p.currentUnits != null and p.currentUnits.doubleValue() >= 0} ? 'long' : 'short')"
+                      th:text="${p.currentUnits != null and p.currentUnits.doubleValue() >= 0 ? 'Long' : 'Short'}">Long</span>
+                            </td>
+
+                            <td class="num" th:text="${p.currentUnits}">0</td>
+                            <td class="num" th:text="${p.price}">0.000</td>
+
+                            <!-- UPL zöld/piros színezés -->
+                            <td class="num">
+                <span th:class="'pl ' + (${p.unrealizedPL != null and p.unrealizedPL.doubleValue() >= 0} ? 'pos' : 'neg')"
+                      th:text="${p.unrealizedPL}">0.00</span>
+                            </td>
+
+                            <!-- az OANDA DateTime-t egyszerűen kiírjuk (ISO) -->
+                            <td th:text="${p.openTime}">2025-11-10T18:25:00Z</td>
+
+                            <!-- Zárás gomb: POST /trade/close_position -->
+                            <td class="actions">
+                                <form th:action="@{/trade/close_position}" method="post" class="inline">
+                                    <input type="hidden" name="tradeId" th:value="${p.id}"/>
+                                    <button type="submit" class="button small icon solid fa-times">Zárás</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="actions-row">
+                    <a th:href="@{/trade/open_position}" class="button icon solid fa-plus">Új nyitás</a>
+                    <a th:href="@{/}" class="button icon solid fa-home">Főmenü</a>
+                </div>
+            </section>
+
         </div>
     </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
