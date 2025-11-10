@@ -14,8 +14,6 @@
 
 <body class="is-preload">
 <div id="wrapper">
-
-    <!-- Main -->
     <div id="main">
         <div class="inner">
 
@@ -39,7 +37,6 @@
                 </div>
             </section>
 
-            <!-- Kliens funkciók -->
             <section>
                 <header class="major">
                     <h2>Devizakereskedő kliens</h2>
@@ -91,10 +88,20 @@
                             </ul>
                         </div>
                     </article>
+                    <article>
+                        <span class="icon solid fa-history"></span>
+                        <div class="content">
+                            <h3>Historikus árak</h3>
+                            <p>Korábbi devizaárfolyamok lekérdezése és elemzése.</p>
+                            <ul class="actions">
+                                <li><a th:href="@{/trade/hist_prices}" class="button">Megnyitás</a></li>
+                            </ul>
+                        </div>
+                    </article>
                 </div>
             </section>
 
-            <!-- Láb alatti dátum -->
+
             <p th:text="${'Pontos idő: ' + #dates.format(nowDate, 'yyyy. MMM d. HH:mm:ss')}"></p>
 
         </div>
